@@ -79,6 +79,7 @@
     <ClInclude Include="pattern5.h" />
     <ClInclude Include="pattern6.h" />
     <ClInclude Include="pattern7.h" />
+    <ClInclude Include="primebt.h" />
     <ClInclude Include="primeN.h" />
     <ClInclude Include="primeno.h" />
     <ClInclude Include="special.h" />

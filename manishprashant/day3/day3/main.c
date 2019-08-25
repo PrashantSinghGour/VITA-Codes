@@ -17,6 +17,7 @@
 #include"pattern10.h"
 #include"primeno.h"
 #include"primeN.h"
+#include"primebt.h"
 int main()
 {
 	//for special number from 1 to 2 lac
@@ -52,12 +53,18 @@ int main()
 	scanf_s("%d",&no);
 	r=primeno(no);
 	(r==1)?(printf("no is prime")):(printf("no is not prime"));*/
+
+
 	
 	//printing N number of prime Number
-	int no1;
+	/*int no1;
 	printf("Enter Number to get that number of prime Numbers");
 	scanf_s("%d",&no1);
-	primeN(no1);
+	primeN(no1);*/
+
+	// for prime no btw 50 to 100
+
+	//primebt();
 
 
 	//pattern printing 1        1

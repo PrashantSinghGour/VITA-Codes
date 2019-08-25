@@ -71,5 +71,8 @@
     <ClInclude Include="primeN.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="primebt.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
