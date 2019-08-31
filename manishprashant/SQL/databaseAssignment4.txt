@@ -1,0 +1,859 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 7
+Server version: 5.1.38-community MySQL Community Server (GPL)
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| manishprashant     |
+| mysql              |
+| newdb              |
+| test               |
++--------------------+
+5 rows in set (0.14 sec)
+
+mysql> use manishprashant;
+Database changed
+mysql> show tables;
++--------------------------+
+| Tables_in_manishprashant |
++--------------------------+
+| biscuitcompany           |
+| book                     |
+| booktrans                |
+| dummy                    |
+| f123                     |
+| member                   |
+| student                  |
+| t123                     |
+| tourist                  |
+| vehicle                  |
++--------------------------+
+10 rows in set (0.31 sec)
+
+mysql> desc biscuitcompany;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| productid   | int(11)     | NO   | PRI | NULL    | auto_increment |
+| productname | varchar(20) | YES  |     | NULL    |                |
+| price       | int(10)     | YES  |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+3 rows in set (0.05 sec)
+
+mysql> use databases;
+ERROR 1049 (42000): Unknown database 'databases'
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| manishprashant     |
+| mysql              |
+| newdb              |
+| test               |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> use manishprashant;
+Database changed
+mysql> show tables;
++--------------------------+
+| Tables_in_manishprashant |
++--------------------------+
+| biscuitcompany           |
+| book                     |
+| booktrans                |
+| dummy                    |
+| f123                     |
+| member                   |
+| student                  |
+| t123                     |
+| tourist                  |
+| vehicle                  |
++--------------------------+
+10 rows in set (0.00 sec)
+
+mysql> select *from  biscuitcompany;
++-----------+-------------+-------+
+| productid | productname | price |
++-----------+-------------+-------+
+|         1 | parle       |    10 |
+|         2 | hide&seek   |    50 |
+|         3 | oreo        |    20 |
+|         4 | bourbon     |    30 |
+|         5 | chocobite   |    40 |
+|         7 | monaccco    |    26 |
++-----------+-------------+-------+
+6 rows in set (0.05 sec)
+
+mysql> select *from biscuitcompany where productname like 'p____';
++-----------+-------------+-------+
+| productid | productname | price |
++-----------+-------------+-------+
+|         1 | parle       |    10 |
++-----------+-------------+-------+
+1 row in set (0.02 sec)
+
+mysql> select * from bicuitcompany where productname like '%r%';
+ERROR 1146 (42S02): Table 'manishprashant.bicuitcompany' doesn't exist
+mysql> select * from biscuitcompany where productname like '%r%';
++-----------+-------------+-------+
+| productid | productname | price |
++-----------+-------------+-------+
+|         1 | parle       |    10 |
+|         3 | oreo        |    20 |
+|         4 | bourbon     |    30 |
++-----------+-------------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from biscuitcompany where productname like '%e';
++-----------+-------------+-------+
+| productid | productname | price |
++-----------+-------------+-------+
+|         1 | parle       |    10 |
+|         5 | chocobite   |    40 |
++-----------+-------------+-------+
+2 rows in set (0.00 sec)
+
+mysql> show tables;
++--------------------------+
+| Tables_in_manishprashant |
++--------------------------+
+| biscuitcompany           |
+| book                     |
+| booktrans                |
+| dummy                    |
+| f123                     |
+| member                   |
+| student                  |
+| t123                     |
+| tourist                  |
+| vehicle                  |
++--------------------------+
+10 rows in set (0.00 sec)
+
+mysql> select * from book;
++--------+-----------------+---------+
+| bookid | bookname        | price   |
++--------+-----------------+---------+
+|      1 | harry potter    | 1000.00 |
+|      2 | chanaykya nithi |  500.00 |
+|      3 | akbar birbal    |  100.00 |
+|      4 | mahabharat      | 5000.00 |
++--------+-----------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select bookid, bookname, count(*) as bookcount from book group by bookid,bookname;
++--------+-----------------+-----------+
+| bookid | bookname        | bookcount |
++--------+-----------------+-----------+
+|      1 | harry potter    |         1 |
+|      2 | chanaykya nithi |         1 |
+|      3 | akbar birbal    |         1 |
+|      4 | mahabharat      |         1 |
++--------+-----------------+-----------+
+4 rows in set (0.03 sec)
+
+mysql> insert into book ( bookname,price) values ('akbar birbal',50),('mahabharat',10050);
+ERROR 1264 (22003): Out of range value for column 'price' at row 2
+mysql> insert into book ( bookname,price) values ('akbar birbal',50),('mahabharat',1005);
+Query OK, 2 rows affected (0.03 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select bookid, bookname, count(*) as bookcount from book group by bookid,bookname;
++--------+-----------------+-----------+
+| bookid | bookname        | bookcount |
++--------+-----------------+-----------+
+|      1 | harry potter    |         1 |
+|      2 | chanaykya nithi |         1 |
+|      3 | akbar birbal    |         1 |
+|      4 | mahabharat      |         1 |
+|      7 | akbar birbal    |         1 |
+|      8 | mahabharat      |         1 |
++--------+-----------------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> select bookname, price from book;
++-----------------+---------+
+| bookname        | price   |
++-----------------+---------+
+| harry potter    | 1000.00 |
+| chanaykya nithi |  500.00 |
+| akbar birbal    |  100.00 |
+| mahabharat      | 5000.00 |
+| akbar birbal    |   50.00 |
+| mahabharat      | 1005.00 |
++-----------------+---------+
+6 rows in set (0.00 sec)
+
+mysql> update book set price =100 where price =50;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update book set price =1005 where price =5000;
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select bookid, bookname, count(*) as bookcount from book group by bookid,bookname;
++--------+-----------------+-----------+
+| bookid | bookname        | bookcount |
++--------+-----------------+-----------+
+|      1 | harry potter    |         1 |
+|      2 | chanaykya nithi |         1 |
+|      3 | akbar birbal    |         1 |
+|      4 | mahabharat      |         1 |
+|      7 | akbar birbal    |         1 |
+|      8 | mahabharat      |         1 |
++--------+-----------------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from book;
++--------+-----------------+---------+
+| bookid | bookname        | price   |
++--------+-----------------+---------+
+|      1 | harry potter    | 1000.00 |
+|      2 | chanaykya nithi |  500.00 |
+|      3 | akbar birbal    |  100.00 |
+|      4 | mahabharat      | 1005.00 |
+|      7 | akbar birbal    |  100.00 |
+|      8 | mahabharat      | 1005.00 |
++--------+-----------------+---------+
+6 rows in set (0.00 sec)
+
+mysql> select * from booktrans;
++--------+---------------------+--------+----------+
+| tranid | tranDate            | bookid | memberid |
++--------+---------------------+--------+----------+
+|      1 | 2019-08-27 18:00:57 |      1 |        1 |
+|      2 | 2019-08-27 18:01:14 |      2 |        2 |
+|      3 | 2019-08-27 18:01:21 |      3 |        3 |
+|      6 | NULL                |      4 |        3 |
+|      9 | NULL                |      4 |        3 |
+|     10 | 2019-08-27 19:12:52 |      4 |        3 |
++--------+---------------------+--------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select bookid, bookname, count(*) as bookcount from book group by bookid having count(*);
++--------+-----------------+-----------+
+| bookid | bookname        | bookcount |
++--------+-----------------+-----------+
+|      1 | harry potter    |         1 |
+|      2 | chanaykya nithi |         1 |
+|      3 | akbar birbal    |         1 |
+|      4 | mahabharat      |         1 |
+|      7 | akbar birbal    |         1 |
+|      8 | mahabharat      |         1 |
++--------+-----------------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> select bookid, bookname, count(*) as bookcount from booktrans group by bookid having count(*);
+ERROR 1054 (42S22): Unknown column 'bookname' in 'field list'
+mysql> select bookid, memberid, count(*) as bookcount from booktrans group by bookid having count(*);
++--------+----------+-----------+
+| bookid | memberid | bookcount |
++--------+----------+-----------+
+|      1 |        1 |         1 |
+|      2 |        2 |         1 |
+|      3 |        3 |         1 |
+|      4 |        3 |         3 |
++--------+----------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from booktrans;
++--------+---------------------+--------+----------+
+| tranid | tranDate            | bookid | memberid |
++--------+---------------------+--------+----------+
+|      1 | 2019-08-27 18:00:57 |      1 |        1 |
+|      2 | 2019-08-27 18:01:14 |      2 |        2 |
+|      3 | 2019-08-27 18:01:21 |      3 |        3 |
+|      6 | NULL                |      4 |        3 |
+|      9 | NULL                |      4 |        3 |
+|     10 | 2019-08-27 19:12:52 |      4 |        3 |
++--------+---------------------+--------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select count(bookname) as bookcount from book;
++-----------+
+| bookcount |
++-----------+
+|         6 |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select count(distinct bookname) as bookcount from book;
++-----------+
+| bookcount |
++-----------+
+|         4 |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select bookname,count(distinct bookname) from book group by bookname;
++-----------------+--------------------------+
+| bookname        | count(distinct bookname) |
++-----------------+--------------------------+
+| akbar birbal    |                        1 |
+| chanaykya nithi |                        1 |
+| harry potter    |                        1 |
+| mahabharat      |                        1 |
++-----------------+--------------------------+
+4 rows in set (0.00 sec)
+
+mysql> select bookname,count(bookname) as bookcount from book group by bookname;
++-----------------+-----------+
+| bookname        | bookcount |
++-----------------+-----------+
+| akbar birbal    |         2 |
+| chanaykya nithi |         1 |
+| harry potter    |         1 |
+| mahabharat      |         2 |
++-----------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select bookname,count(bookname) as bookcount from book group by bookname having bookcount>1;
++--------------+-----------+
+| bookname     | bookcount |
++--------------+-----------+
+| akbar birbal |         2 |
+| mahabharat   |         2 |
++--------------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> create table location(
+    -> locid int,
+    -> city varchar(15) not null,
+    -> addr varchar(25));
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> alter table location modify column locid int primary key;
+Query OK, 0 rows affected (0.14 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+mysql> insert into location values(1,'mumbai','santacruz'),
+    -> (2,'hyderabad','electronic city'),
+    -> (3,'pune','hinjewadi'),
+    -> (4,'banglore','hitech city');
+Query OK, 4 rows affected (0.03 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from location;
++-------+-----------+-----------------+
+| locid | city      | addr            |
++-------+-----------+-----------------+
+|     1 | mumbai    | santacruz       |
+|     2 | hyderabad | electronic city |
+|     3 | pune      | hinjewadi       |
+|     4 | banglore  | hitech city     |
++-------+-----------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> create table dept;
+ERROR 1113 (42000): A table must have at least 1 column
+mysql> create table dept(
+    -> deptid int primary key,
+    -> dname varchar(20) not null,
+    -> locid int refernces location(locid));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'refernces location(locid))' at line 4
+mysql> create table dept(
+    -> deptid int primary key,
+    -> dname varchar(20) not null,
+    -> locid int references location(locid));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> insert into dept values(101,'sales',1),
+    -> (102,'HR',2);
+Query OK, 2 rows affected (0.03 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> insert into dept values(103,'finance',3),
+    -> (104,'mkt',4),
+    -> (105,'ops',5);
+Query OK, 3 rows affected (0.03 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from location;
++-------+-----------+-----------------+
+| locid | city      | addr            |
++-------+-----------+-----------------+
+|     1 | mumbai    | santacruz       |
+|     2 | hyderabad | electronic city |
+|     3 | pune      | hinjewadi       |
+|     4 | banglore  | hitech city     |
++-------+-----------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from dept;
++--------+---------+-------+
+| deptid | dname   | locid |
++--------+---------+-------+
+|    101 | sales   |     1 |
+|    102 | HR      |     2 |
+|    103 | finance |     3 |
+|    104 | mkt     |     4 |
+|    105 | ops     |     5 |
++--------+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table dept modify coulmn locid foriegn key;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'locid foriegn key' at line 1
+mysql> describe dept;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| deptid | int(11)     | NO   | PRI | NULL    |       |
+| dname  | varchar(20) | NO   |     | NULL    |       |
+| locid  | int(11)     | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql>
+mysql> create table emp(
+    -> empid int primary id,
+    -> empname varchar(25) not null,
+    -> deptid int references dept(deptid),
+    -> magrid int references emp(empid),
+    -> salary decimal (10,2));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'id,
+empname varchar(25) not null,
+deptid int references dept(deptid),
+magrid int' at line 2
+mysql> create table emp(
+    -> empid int primary key,
+    -> empname varchar(25) not null,
+    -> deptid int references dept(deptid),
+    -> magrid int references emp(empid),
+    -> salary decimal (10,2));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> insert into emp values(1001,'steven king',105,null,50000);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into emp values(1002,'neena kochhar',106,null,40000);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into emp values(1003,'nancy greenberg',102,1001,35000);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into emp values(1004,'andrew lusk',101,1002,15000),
+    -> (1005,'pamila davis',null,1002,14000),
+    -> (1007,'kate winslet',105,1001,11000),
+    -> (1008,'sui fisher',105,1001,10000),);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 4
+mysql> insert into emp values(1004,'andrew lusk',101,1002,15000),
+    -> (1005,'pamila davis',null,1002,14000),
+    -> (1007,'kate winslet',105,1001,11000),
+    -> (1008,'sui fisher',105,1001,10000));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 4
+mysql> insert into emp values(1004,'andrew lusk',101,1002,15000),
+    -> (1005,'pamila davis',null,1002,14000),
+    -> (1007,'kate winslet',105,1001,11000),
+    -> (1008,'sui fisher',105,1001,10000);
+Query OK, 4 rows affected (0.05 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from emp;
++-------+-----------------+--------+--------+----------+
+| empid | empname         | deptid | magrid | salary   |
++-------+-----------------+--------+--------+----------+
+|  1001 | steven king     |    105 |   NULL | 50000.00 |
+|  1002 | neena kochhar   |    106 |   NULL | 40000.00 |
+|  1003 | nancy greenberg |    102 |   1001 | 35000.00 |
+|  1004 | andrew lusk     |    101 |   1002 | 15000.00 |
+|  1005 | pamila davis    |   NULL |   1002 | 14000.00 |
+|  1007 | kate winslet    |    105 |   1001 | 11000.00 |
+|  1008 | sui fisher      |    105 |   1001 | 10000.00 |
++-------+-----------------+--------+--------+----------+
+7 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select * from emp;
++-------+-----------------+--------+--------+----------+
+| empid | empname         | deptid | magrid | salary   |
++-------+-----------------+--------+--------+----------+
+|  1001 | steven king     |    105 |   NULL | 50000.00 |
+|  1002 | neena kochhar   |    106 |   NULL | 40000.00 |
+|  1003 | nancy greenberg |    102 |   1001 | 35000.00 |
+|  1004 | andrew lusk     |    101 |   1002 | 15000.00 |
+|  1005 | pamila davis    |   NULL |   1002 | 14000.00 |
+|  1007 | kate winslet    |    105 |   1001 | 11000.00 |
+|  1008 | sui fisher      |    105 |   1001 | 10000.00 |
++-------+-----------------+--------+--------+----------+
+7 rows in set (0.00 sec)
+
+mysql> modify table emp column magrid where magrid is null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'modify table emp column magrid where magrid is null' at line 1
+mysql> update emp set magrid=1001 where empid=1002;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from emp;
++-------+-----------------+--------+--------+----------+
+| empid | empname         | deptid | magrid | salary   |
++-------+-----------------+--------+--------+----------+
+|  1001 | steven king     |    105 |   NULL | 50000.00 |
+|  1002 | neena kochhar   |    106 |   1001 | 40000.00 |
+|  1003 | nancy greenberg |    102 |   1001 | 35000.00 |
+|  1004 | andrew lusk     |    101 |   1002 | 15000.00 |
+|  1005 | pamila davis    |   NULL |   1002 | 14000.00 |
+|  1007 | kate winslet    |    105 |   1001 | 11000.00 |
+|  1008 | sui fisher      |    105 |   1001 | 10000.00 |
++-------+-----------------+--------+--------+----------+
+7 rows in set (0.00 sec)
+
+mysql> select * from location;
++-------+-----------+-----------------+
+| locid | city      | addr            |
++-------+-----------+-----------------+
+|     1 | mumbai    | santacruz       |
+|     2 | hyderabad | electronic city |
+|     3 | pune      | hinjewadi       |
+|     4 | banglore  | hitech city     |
++-------+-----------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> desc location;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| locid | int(11)     | NO   | PRI | NULL    |       |
+| city  | varchar(15) | NO   |     | NULL    |       |
+| addr  | varchar(25) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.05 sec)
+
+mysql> select * from dept;
++--------+---------+-------+
+| deptid | dname   | locid |
++--------+---------+-------+
+|    101 | sales   |     1 |
+|    102 | HR      |     2 |
+|    103 | finance |     3 |
+|    104 | mkt     |     4 |
+|    105 | ops     |     5 |
++--------+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc dept;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| deptid | int(11)     | NO   | PRI | NULL    |       |
+| dname  | varchar(20) | NO   |     | NULL    |       |
+| locid  | int(11)     | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> select
+    -> select * from location inner join dept on location.locid=dept.deptid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select * from location inner join dept on location.locid=dept.deptid' at line 2
+mysql> select * from location inner join dept on location.locid=dept.locid;
++-------+-----------+-----------------+--------+---------+-------+
+| locid | city      | addr            | deptid | dname   | locid |
++-------+-----------+-----------------+--------+---------+-------+
+|     1 | mumbai    | santacruz       |    101 | sales   |     1 |
+|     2 | hyderabad | electronic city |    102 | HR      |     2 |
+|     3 | pune      | hinjewadi       |    103 | finance |     3 |
+|     4 | banglore  | hitech city     |    104 | mkt     |     4 |
++-------+-----------+-----------------+--------+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from location outer join dept on location.locid=dept.locid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'outer join dept on location.locid=dept.locid' at line 1
+mysql> select * from location left outer join dept on location.locid=dept.locid;
++-------+-----------+-----------------+--------+---------+-------+
+| locid | city      | addr            | deptid | dname   | locid |
++-------+-----------+-----------------+--------+---------+-------+
+|     1 | mumbai    | santacruz       |    101 | sales   |     1 |
+|     2 | hyderabad | electronic city |    102 | HR      |     2 |
+|     3 | pune      | hinjewadi       |    103 | finance |     3 |
+|     4 | banglore  | hitech city     |    104 | mkt     |     4 |
++-------+-----------+-----------------+--------+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from location right outer join dept on location.locid=dept.locid;
++-------+-----------+-----------------+--------+---------+-------+
+| locid | city      | addr            | deptid | dname   | locid |
++-------+-----------+-----------------+--------+---------+-------+
+|     1 | mumbai    | santacruz       |    101 | sales   |     1 |
+|     2 | hyderabad | electronic city |    102 | HR      |     2 |
+|     3 | pune      | hinjewadi       |    103 | finance |     3 |
+|     4 | banglore  | hitech city     |    104 | mkt     |     4 |
+|  NULL | NULL      | NULL            |    105 | ops     |     5 |
++-------+-----------+-----------------+--------+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select deptname,city,addr from location inner join dept on location.locid=dept.locid;
+ERROR 1054 (42S22): Unknown column 'deptname' in 'field list'
+mysql> select * from lcation;
+ERROR 1146 (42S02): Table 'manishprashant.lcation' doesn't exist
+mysql> select from location;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from location' at line 1
+mysql> select * from location;
++-------+-----------+-----------------+
+| locid | city      | addr            |
++-------+-----------+-----------------+
+|     1 | mumbai    | santacruz       |
+|     2 | hyderabad | electronic city |
+|     3 | pune      | hinjewadi       |
+|     4 | banglore  | hitech city     |
++-------+-----------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from dept;
++--------+---------+-------+
+| deptid | dname   | locid |
++--------+---------+-------+
+|    101 | sales   |     1 |
+|    102 | HR      |     2 |
+|    103 | finance |     3 |
+|    104 | mkt     |     4 |
+|    105 | ops     |     5 |
++--------+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select dname,city,addr from location l inner join dept d on l.locid=d.locid ;
++---------+-----------+-----------------+
+| dname   | city      | addr            |
++---------+-----------+-----------------+
+| sales   | mumbai    | santacruz       |
+| HR      | hyderabad | electronic city |
+| finance | pune      | hinjewadi       |
+| mkt     | banglore  | hitech city     |
++---------+-----------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from emp;
++-------+-----------------+--------+--------+----------+
+| empid | empname         | deptid | magrid | salary   |
++-------+-----------------+--------+--------+----------+
+|  1001 | steven king     |    105 |   NULL | 50000.00 |
+|  1002 | neena kochhar   |    106 |   1001 | 40000.00 |
+|  1003 | nancy greenberg |    102 |   1001 | 35000.00 |
+|  1004 | andrew lusk     |    101 |   1002 | 15000.00 |
+|  1005 | pamila davis    |   NULL |   1002 | 14000.00 |
+|  1007 | kate winslet    |    105 |   1001 | 11000.00 |
+|  1008 | sui fisher      |    105 |   1001 | 10000.00 |
++-------+-----------------+--------+--------+----------+
+7 rows in set (0.00 sec)
+
+mysql> select empname ,city, addr,dname from location l inner join dept d on l.locid=d.locid dept d inner join emp e on d.deotid=e.deptid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dept d inner join emp e on d.deotid=e.deptid' at line 1
+mysql> select empname ,city, addr,dname from location l inner join dept d on l.locid=d.locid dept d inner join emp e on d.deptid=e.deptid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dept d inner join emp e on d.deptid=e.deptid' at line 1
+mysql> select empname ,city, addr,dname from location l inner join dept d on l.locid=d.locid dept  inner join emp on dept.deptid=emp.deptid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dept  inner join emp on dept.deptid=emp.deptid' at line 1
+mysql> select empname ,city, addr,dname from location l inner join dept d on l.locid=d.locid  inner join emp on dept.deptid=emp.deptid;
+ERROR 1054 (42S22): Unknown column 'dept.deptid' in 'on clause'
+mysql> select empname ,city, addr,dname from location l inner join dept d on l.locid=d.locid inner join emp on d.deptid=emp.deptid;
++-----------------+-----------+-----------------+-------+
+| empname         | city      | addr            | dname |
++-----------------+-----------+-----------------+-------+
+| andrew lusk     | mumbai    | santacruz       | sales |
+| nancy greenberg | hyderabad | electronic city | HR    |
++-----------------+-----------+-----------------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select empname ,city, addr,dname from location l left outer join dept d on l.locid=d.locid inner join emp on d.deptid=emp.deptid;
++-----------------+-----------+-----------------+-------+
+| empname         | city      | addr            | dname |
++-----------------+-----------+-----------------+-------+
+| andrew lusk     | mumbai    | santacruz       | sales |
+| nancy greenberg | hyderabad | electronic city | HR    |
++-----------------+-----------+-----------------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select empname ,city, addr,dname from location l left outer join dept d on l.locid=d.locid left outer join emp on d.deptid=emp.deptid;
++-----------------+-----------+-----------------+---------+
+| empname         | city      | addr            | dname   |
++-----------------+-----------+-----------------+---------+
+| andrew lusk     | mumbai    | santacruz       | sales   |
+| nancy greenberg | hyderabad | electronic city | HR      |
+| NULL            | pune      | hinjewadi       | finance |
+| NULL            | banglore  | hitech city     | mkt     |
++-----------------+-----------+-----------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select empname ,city, addr,dname from location l right outer join dept d on l.locid=d.locid left outer join emp on d.deptid=emp.deptid;
++-----------------+-----------+-----------------+---------+
+| empname         | city      | addr            | dname   |
++-----------------+-----------+-----------------+---------+
+| andrew lusk     | mumbai    | santacruz       | sales   |
+| nancy greenberg | hyderabad | electronic city | HR      |
+| NULL            | pune      | hinjewadi       | finance |
+| NULL            | banglore  | hitech city     | mkt     |
+| steven king     | NULL      | NULL            | ops     |
+| kate winslet    | NULL      | NULL            | ops     |
+| sui fisher      | NULL      | NULL            | ops     |
++-----------------+-----------+-----------------+---------+
+7 rows in set (0.00 sec)
+
+mysql> select empname ,city, addr,dname from location l right outer join dept d on l.locid=d.locid right outer join emp on d.deptid=emp.deptid;
++-----------------+-----------+-----------------+-------+
+| empname         | city      | addr            | dname |
++-----------------+-----------+-----------------+-------+
+| steven king     | NULL      | NULL            | ops   |
+| neena kochhar   | NULL      | NULL            | NULL  |
+| nancy greenberg | hyderabad | electronic city | HR    |
+| andrew lusk     | mumbai    | santacruz       | sales |
+| pamila davis    | NULL      | NULL            | NULL  |
+| kate winslet    | NULL      | NULL            | ops   |
+| sui fisher      | NULL      | NULL            | ops   |
++-----------------+-----------+-----------------+-------+
+7 rows in set (0.00 sec)
+
+mysql> select * from location;
++-------+-----------+-----------------+
+| locid | city      | addr            |
++-------+-----------+-----------------+
+|     1 | mumbai    | santacruz       |
+|     2 | hyderabad | electronic city |
+|     3 | pune      | hinjewadi       |
+|     4 | banglore  | hitech city     |
++-------+-----------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from emp;
++-------+-----------------+--------+--------+----------+
+| empid | empname         | deptid | magrid | salary   |
++-------+-----------------+--------+--------+----------+
+|  1001 | steven king     |    105 |   NULL | 50000.00 |
+|  1002 | neena kochhar   |    106 |   1001 | 40000.00 |
+|  1003 | nancy greenberg |    102 |   1001 | 35000.00 |
+|  1004 | andrew lusk     |    101 |   1002 | 15000.00 |
+|  1005 | pamila davis    |   NULL |   1002 | 14000.00 |
+|  1007 | kate winslet    |    105 |   1001 | 11000.00 |
+|  1008 | sui fisher      |    105 |   1001 | 10000.00 |
++-------+-----------------+--------+--------+----------+
+7 rows in set (0.00 sec)
+
+mysql> select empname from emp e inner join emp m on e.empid=m.magrid;
+ERROR 1052 (23000): Column 'empname' in field list is ambiguous
+mysql> select e.empname from emp e inner join emp m on e.empid=m.magrid;
++---------------+
+| empname       |
++---------------+
+| steven king   |
+| steven king   |
+| neena kochhar |
+| neena kochhar |
+| steven king   |
+| steven king   |
++---------------+
+6 rows in set (0.02 sec)
+
+mysql> select e.empname, m.empname from emp e inner join emp m on e.empid=m.magrid;
++---------------+-----------------+
+| empname       | empname         |
++---------------+-----------------+
+| steven king   | neena kochhar   |
+| steven king   | nancy greenberg |
+| neena kochhar | andrew lusk     |
+| neena kochhar | pamila davis    |
+| steven king   | kate winslet    |
+| steven king   | sui fisher      |
++---------------+-----------------+
+6 rows in set (0.01 sec)
+
+mysql> select m.empname, e.empname from emp e inner join emp m on e.empid=m.magrid;
++-----------------+---------------+
+| empname         | empname       |
++-----------------+---------------+
+| neena kochhar   | steven king   |
+| nancy greenberg | steven king   |
+| andrew lusk     | neena kochhar |
+| pamila davis    | neena kochhar |
+| kate winslet    | steven king   |
+| sui fisher      | steven king   |
++-----------------+---------------+
+6 rows in set (0.00 sec)
+
+mysql> select m.empname , e.empname as managername from emp e inner join emp m on e.empid=m.magrid;
++-----------------+---------------+
+| empname         | managername   |
++-----------------+---------------+
+| neena kochhar   | steven king   |
+| nancy greenberg | steven king   |
+| andrew lusk     | neena kochhar |
+| pamila davis    | neena kochhar |
+| kate winslet    | steven king   |
+| sui fisher      | steven king   |
++-----------------+---------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from emp;
++-------+-----------------+--------+--------+----------+
+| empid | empname         | deptid | magrid | salary   |
++-------+-----------------+--------+--------+----------+
+|  1001 | steven king     |    105 |   NULL | 50000.00 |
+|  1002 | neena kochhar   |    106 |   1001 | 40000.00 |
+|  1003 | nancy greenberg |    102 |   1001 | 35000.00 |
+|  1004 | andrew lusk     |    101 |   1002 | 15000.00 |
+|  1005 | pamila davis    |   NULL |   1002 | 14000.00 |
+|  1007 | kate winslet    |    105 |   1001 | 11000.00 |
+|  1008 | sui fisher      |    105 |   1001 | 10000.00 |
++-------+-----------------+--------+--------+----------+
+7 rows in set (0.00 sec)
+
+
+mysql> select * from salespeople;
++------+---------+-----------+------+
+| SNum | Sname   | City      | Comm |
++------+---------+-----------+------+
+| 1001 | peel    | london    | 0.12 |
+| 1002 | serres  | san jose  | 0.13 |
+| 1003 | axelrod | new york  | 0.10 |
+| 1004 | motika  | london    | 0.11 |
+| 1005 | fran    | london    | 0.26 |
+| 1007 | rifkin  | barcelona | 0.15 |
++------+---------+-----------+------+
+6 rows in set (0.00 sec)
+
+mysql> create table customer(cnum int,cname varchar(20),city varchar(15),rating int,snum int);
+Query OK, 0 rows affected (0.09 sec)
